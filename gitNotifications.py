@@ -1,12 +1,10 @@
+import sys
 from github import Github
-
 from RssBuilder import RssBuilderObj
 
-API_TOKEN = "8156553b16e6a14cc49d8a79f1c392fb4f104fcc"
 
-
-def login():
-    return Github(API_TOKEN)
+def login(api_token):
+    return Github(api_token)
 
 
 def convert_to_rss(notification_list):
@@ -43,9 +41,11 @@ def get_notification_title(notification):
 
 
 def main():
-    g_user = login().get_user()
+    g_user = login(sys.argv[1]).get_user()
 
     print(convert_to_rss(get_unread_notifications(g_user)))
 
 
+if len(sys.argv) < 2:
+    print("usage: python gitNotification.py <API_TOKEN>")
 main()
